@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-    help = "Wait for database to be available"
+    help_text = "Wait for database to be available"
 
     def handle(self, *args, **options):
         self.stdout.write("Waiting for database...")
