@@ -6,12 +6,16 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-RUN apk add --no-cache \
-    gcc \
-    musl-dev \
-    postgresql-dev
-
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+
+RUN apk add --no-cache --virtual .build-deps \
+        gcc \
+        musl-dev \
+        postgresql-dev \
+    && pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apk del .build-deps
 
 COPY . .
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
